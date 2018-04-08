@@ -1,8 +1,5 @@
 .idea
 .gradle
-
-target/
-
 build/
 data/
 *.ids
@@ -20,3 +17,7 @@ gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# java
+*.class
+target/
