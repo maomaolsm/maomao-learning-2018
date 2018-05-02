@@ -11,6 +11,7 @@ import java.io.InputStream;
  */
 public class Demo {
 
+    // 直接运行maven插件generate
     public static void main(String[] args) throws FileNotFoundException {
 
     }

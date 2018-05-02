@@ -31,35 +31,35 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("µ÷ÓÃdopost");
+        System.out.println("è°ƒç”¨dopost");
     }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        //¿ªÊ¼³õÊ¼»¯µÄ½ø³Ì
+        //å¼€å§‹åˆå§‹åŒ–çš„è¿›ç¨‹
 
 
-        //¶¨Î»
+        //å®šä½
         doLoadConfig(config.getInitParameter("contentConfigLocation"));
 
 
-        //¼ÓÔØ
+        //åŠ è½½
         doScanner();
 
 
-        //×¢²á
+        //æ³¨å†Œ
         doRegistry();
 
 
-        //×Ô¶¯ÒÀÀµ×¢Èë
+        //è‡ªåŠ¨ä¾èµ–æ³¨å…¥
         doAutowired();
 
 
-        //Èç¹ûÊÇspringMVC£¬»á¶àÉè¼ÆÒ»¸öHandleMapping
+        //å¦‚æœæ˜¯springMVCï¼Œä¼šå¤šè®¾è®¡ä¸€ä¸ªHandleMapping
 
 
-        //½«@RequestMappingÖĞÅäÖÃµÄurlºÍmethodÍ¨¹ı·´ÉäÈ¥µ÷ÓÃ
-        //ÒÔ±ãÓÚ´Óä¯ÀÀÆ÷»ñµÃÓÃ»§ÊäÈëµÄurlÒÔºó£¬ÄÜ¹»ÕÒµ½¾ßÌåÖ´ĞĞµÄMethodÍ¨¹ı·´ÉäÈ¥µ÷ÓÃ
+        //å°†@RequestMappingä¸­é…ç½®çš„urlå’Œmethodé€šè¿‡åå°„å»è°ƒç”¨
+        //ä»¥ä¾¿äºä»æµè§ˆå™¨è·å¾—ç”¨æˆ·è¾“å…¥çš„urlä»¥åï¼Œèƒ½å¤Ÿæ‰¾åˆ°å…·ä½“æ‰§è¡Œçš„Methodé€šè¿‡åå°„å»è°ƒç”¨
         initHandleMapping();
     }
 
@@ -80,7 +80,7 @@ public class DispatchServlet extends HttpServlet {
     }
 
     private void doLoadConfig(String location) {
-        //ÔÚspringÖĞÊÇÍ¨¹ıReaderÈ¥²éÕÒºÍ¶¨Î»µÄ
+        //åœ¨springä¸­æ˜¯é€šè¿‡Readerå»æŸ¥æ‰¾å’Œå®šä½çš„
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(location);
 
         try {
