@@ -1,3 +1,7 @@
+
+# remote 生成的文件夹
+.extract
+
 .idea
 .gradle
 build/
