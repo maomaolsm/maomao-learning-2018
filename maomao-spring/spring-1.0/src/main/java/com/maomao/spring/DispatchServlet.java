@@ -45,22 +45,22 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        //开始初始化的进程
+        // 开始初始化的进程
 
 
-        //定位
+        // 定位
         doLoadConfig(config.getInitParameter("contentConfigLocation"));
 
 
-        //加载
+        // 加载
         doScanner(contextConfig.getProperty("scanPackage"));
 
 
-        //注册
+        // 注册
         doRegistry();
 
 
-        //自动依赖注入
+        // 自动依赖注入
         // 在 spring 中是通过 getBean 方法才触发依赖注入的
         doAutowired();
 
@@ -68,7 +68,7 @@ public class DispatchServlet extends HttpServlet {
         DemoAction demoAction = (DemoAction) beanMap.get("demoAction");
         demoAction.query(null, null,"maomao");
 
-        //如果是springMVC，会多设计一个HandleMapping
+        // 如果是springMVC，会多设计一个HandleMapping
 
 
         // 将 @RequestMapping 中配置的 url 和 method 通过反射去调用
