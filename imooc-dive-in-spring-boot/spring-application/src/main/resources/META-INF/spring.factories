@@ -1,0 +1,17 @@
+# Initializers
+# ApplicationContextInitializer 实现配置
+org.springframework.context.ApplicationContextInitializer=\
+com.maomao.context.AfterHelloWorldApplicationContextInitializer,\
+com.maomao.context.HelloWorldApplicationContextInitializer
+
+# Application Listeners
+# ApplicationListener 实现配置
+org.springframework.context.ApplicationListener=\
+com.maomao.listener.HelloWorldApplicationListener,\
+com.maomao.listener.AfterHelloWorldApplicationListener,\
+com.maomao.listener.BeforeConfigFileApplicationListener
+
+# Run Listeners (这里可以以扩展 SpringApplicationRunListener)
+# SpringApplicationRunListener 实现配置
+org.springframework.boot.SpringApplicationRunListener=\
+com.maomao.run.HollerWorldRunListener

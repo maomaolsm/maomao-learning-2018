@@ -23,6 +23,7 @@ public class SpringBootApplicationBootstrap {
         application.setSources(sources);
 
         ConfigurableApplicationContext context = application.run(args);
+
         // 证明 ApplicationConfiguration 是一个 Bean
 //        System.out.println("Bean : " + context.getBean(ApplicationConfiguration.class));
     }
