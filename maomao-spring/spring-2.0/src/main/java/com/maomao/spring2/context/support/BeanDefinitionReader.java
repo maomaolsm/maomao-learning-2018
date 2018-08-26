@@ -1,6 +1,6 @@
-package com.maomao.context.support;
+package com.maomao.spring2.context.support;
 
-import com.maomao.beans.BeanDefinition;
+import com.maomao.spring2.beans.BeanDefinition;
 
 import java.io.File;
 import java.io.IOException;

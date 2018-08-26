@@ -1,4 +1,4 @@
-package com.maomao.beans;
+package com.maomao.spring2.beans;
 
 /**
  * 用来存储配置文件中的信息
