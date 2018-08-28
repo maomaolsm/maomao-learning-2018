@@ -1,6 +1,6 @@
 package com.maomao.spring2.framework.context;
 
-import com.maomao.spring2.demo.mvc.action.DemoAction;
+import com.maomao.spring2.demo.action.DemoAction;
 import com.maomao.spring2.framework.annotation.Autowired;
 import com.maomao.spring2.framework.annotation.Controller;
 import com.maomao.spring2.framework.annotation.Service;

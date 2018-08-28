@@ -1,6 +1,6 @@
 package com.maomao.springmvc.framework.context;
 
-import com.maomao.spring2.demo.mvc.action.DemoAction;
+import com.maomao.springmvc.demo.action.MyAction;
 import com.maomao.springmvc.framework.annotation.Autowired;
 import com.maomao.springmvc.framework.annotation.Controller;
 import com.maomao.springmvc.framework.annotation.Service;
@@ -54,7 +54,7 @@ public class MaoApplicationContext implements BeanFactory {
         // 在这里自动调用 getBean 方法
         doAutowired();
 
-        DemoAction demoAction = (DemoAction) this.getBean("demoAction");
+        MyAction demoAction = (MyAction) this.getBean("demoAction");
         demoAction.query(null, null, "test maomao");
 
     }

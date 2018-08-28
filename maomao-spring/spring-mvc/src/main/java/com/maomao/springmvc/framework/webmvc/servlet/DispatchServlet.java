@@ -1,6 +1,7 @@
-package com.maomao.springmvc.framework;
+package com.maomao.springmvc.framework.webmvc.servlet;
 
 import com.maomao.springmvc.framework.context.MaoApplicationContext;
+import com.maomao.springmvc.framework.webmvc.HandlerMapping;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -20,11 +21,20 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        doDispatch(req, resp);
+    }
+
+    private void doDispatch(HttpServletRequest req, HttpServletResponse resp) {
+        HandlerMapping handlerMapping = getHandler(req);
+    }
+
+    private HandlerMapping getHandler(HttpServletRequest req) {
+        return null;
     }
 
     @Override
@@ -50,15 +60,20 @@ public class DispatchServlet extends HttpServlet {
         initThemeResolver(context); // 主题解析
 
         // 自己实现
+        // HandlerMapping 用来保存 Controller 中配置的 RequestMapping 和 Method 的一个对应关系
         initHandlerMappings(context); // 通过 HandlerMapping，将请求映射到处理器
-        // 自己实现
-        initHandlerAdapters(context); // 通过 HandlerAdapter，进行多类型的参数动态匹配
-
+        // HandlerAdapter 用来动态匹配参数，包括类转换，动态赋值
+        initHandlerAdapters(context);  // 通过 HandlerAdapter，进行多类型的参数动态匹配
 
         initHandlerExceptionResolvers(context); // 如果执行中遇到异常，将有 HandlerExceptionResolver 来解析
-        initRequestToViewNameTranslator(context);
-        initViewResolvers(context);
-        initFlashMapManager(context);
+        initRequestToViewNameTranslator(context); // 直接解析请求到视图名
+
+        // 自己实现
+        // 通过 ViewResolvers 实现动态模版解析
+        // 自己解析一套模版语言
+        initViewResolvers(context); // 通过 ViewResolvers 解析逻辑视图到具体视图实现
+
+        initFlashMapManager(context); // flash 映射管理器
     }
 
     private void initFlashMapManager(MaoApplicationContext context) {
