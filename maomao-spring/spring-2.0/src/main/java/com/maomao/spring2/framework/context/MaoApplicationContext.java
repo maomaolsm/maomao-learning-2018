@@ -84,7 +84,7 @@ public class MaoApplicationContext implements BeanFactory {
             return;
         }
 
-        Field[] fields = clazz.getFields();
+        Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
 
             if (!field.isAnnotationPresent(Autowired.class)) {
@@ -98,7 +98,11 @@ public class MaoApplicationContext implements BeanFactory {
             }
 
             field.setAccessible(true);
-
+            try {
+                field.set(instance, this.beanWrapperMap.get(autowiredBeanName).getWrapperInstance());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
 

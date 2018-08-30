@@ -9,6 +9,6 @@ import com.maomao.spring2.framework.annotation.Service;
 @Service
 public class DemoService implements IDemoService {
     public String get(String name) {
-        return "-------------my name is : " + name;
+        return "------------- my name is : " + name;
     }
 }

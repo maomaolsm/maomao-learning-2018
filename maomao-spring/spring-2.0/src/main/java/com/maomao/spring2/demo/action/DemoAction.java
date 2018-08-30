@@ -27,7 +27,7 @@ public class DemoAction {
         String result = demoService.get(name);
 
         // 验证 service 是否被注入
-        System.out.println("~~~~~~~~~~~~~~~~~~~~ spring2 " + result);
+        System.out.println("-------------------- spring2 " + result);
 
 //        try {
 //            response.getWriter().write(result);
