@@ -1,7 +1,9 @@
 package com.maomao.springmvc.framework.webmvc.servlet;
 
 import com.maomao.springmvc.framework.context.MaoApplicationContext;
+import com.maomao.springmvc.framework.webmvc.HandlerAdapter;
 import com.maomao.springmvc.framework.webmvc.HandlerMapping;
+import com.maomao.springmvc.framework.webmvc.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * servlet 只是作为一个 MVC 的启动入口
@@ -19,6 +23,15 @@ public class DispatchServlet extends HttpServlet {
 
     private final String LOCATION = "contextConfigLocation";
 
+//    private Map<String, HandlerMapping> handlerMapping = new HashMap<String, HandlerMapping>();
+
+    // 课后思考一下这样设计的经典之处 为什么是 list
+    // HandlerMapping 是 spring 中最核心的设计，也是最经典的
+    // 他牛逼到直接干掉了其他的 mvc 框架
+    private List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
+
+    private List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
@@ -26,11 +39,40 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doDispatch(req, resp);
+//        String url = req.getRequestURI();
+//        String contextPath = req.getContextPath();
+//        url = url.replace(contextPath, "").replaceAll("/+", "/");
+//        HandlerMapping handler = handlerMapping.get(url);
+//
+//        try {
+//            ModelAndView mv = (ModelAndView) handler.getMethod().invoke(handler.getController());
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
+
+        // 对象.方法名才能调用
+        // 对象要从 ioc 容器中获取
+//        method.invoke(context,);
+
+//        doDispatch(req, resp);
     }
 
     private void doDispatch(HttpServletRequest req, HttpServletResponse resp) {
         HandlerMapping handlerMapping = getHandler(req);
+        HandlerAdapter handlerAdapter = getHandlerAdapter(handlerMapping);
+        ModelAndView modelAndView = handlerAdapter.handle(req, resp, handlerMapping);
+        processDispatchResult(resp, modelAndView);
+    }
+
+    private void processDispatchResult(HttpServletResponse resp, ModelAndView modelAndView) {
+
+        // 调用 viewResolver 的 resoleView 方法
+    }
+
+    private HandlerAdapter getHandlerAdapter(HandlerMapping handlerMapping) {
+        return null;
     }
 
     private HandlerMapping getHandler(HttpServletRequest req) {
@@ -96,8 +138,18 @@ public class DispatchServlet extends HttpServlet {
 
     }
 
+    // 将 Controller 中配置的 RequestMapping 和 Method 的一一对应
     private void initHandlerMappings(MaoApplicationContext context) {
 
+        // 按照通常的理解应该是一个 map
+        // Map<String,Method> map;
+        // map.put(url,method);
+
+        // 首先从容器中取到所有的实例
+        String[] beanNames = context.getBeanDefinitionNames();
+        for (String beanName : beanNames) {
+
+        }
     }
 
     private void initThemeResolver(MaoApplicationContext context) {

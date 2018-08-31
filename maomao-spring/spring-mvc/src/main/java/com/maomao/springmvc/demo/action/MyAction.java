@@ -35,7 +35,8 @@ public class MyAction {
         return out(response, result);
     }
 
-    @RequestMapping("/add.json")
+    @RequestMapping("/add*.json")
+    // 支持正则 addA addB
     public ModelAndView add(HttpServletRequest request, HttpServletResponse response,
                             @RequestParam("name") String name,
                             @RequestParam("addr") String addr) {
