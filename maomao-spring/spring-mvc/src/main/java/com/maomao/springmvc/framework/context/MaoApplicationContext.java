@@ -1,6 +1,5 @@
 package com.maomao.springmvc.framework.context;
 
-import com.maomao.springmvc.demo.action.MyAction;
 import com.maomao.springmvc.framework.annotation.Autowired;
 import com.maomao.springmvc.framework.annotation.Controller;
 import com.maomao.springmvc.framework.annotation.Service;
@@ -14,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -54,8 +54,8 @@ public class MaoApplicationContext implements BeanFactory {
         // 在这里自动调用 getBean 方法
         doAutowired();
 
-        MyAction demoAction = (MyAction) this.getBean("demoAction");
-        demoAction.query(null, null, "test maomao");
+//        MyAction demoAction = (MyAction) this.getBean("demoAction");
+//        demoAction.query(null, null, "test maomao");
 
     }
 
@@ -223,5 +223,9 @@ public class MaoApplicationContext implements BeanFactory {
             .toArray(
                 new String[this.beanDefinitionMap.size()]
             );
+    }
+
+    public Properties getConfig() {
+        return this.reader.getContextConfig();
     }
 }
