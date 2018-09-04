@@ -43,9 +43,9 @@ public class HandlerAdapter {
         Object[] paramValues = new Object[paramTypes.length];
         for (Map.Entry<String, String[]> param : reqParameterMap.entrySet()) {
             String value = Arrays
-                .toString(param.getValue())
-                .replaceAll("\\[|\\]", "")
-                .replaceAll("\\s", ",");
+                    .toString(param.getValue())
+                    .replaceAll("\\[|\\]", "")
+                    .replaceAll("\\s", "");
 
             if (!this.paramMapping.containsKey(param.getKey())) {
                 continue;
@@ -67,10 +67,10 @@ public class HandlerAdapter {
             int respIndex = this.paramMapping.get(HttpServletResponse.class.getName());
             paramValues[respIndex] = resp;
         }
-        
+
         // 4、从 handler 中取出 controller、method，然后利用反射机制进行调用
         Object result = handlerMapping.getMethod()
-            .invoke(handlerMapping.getController(), paramValues);
+                .invoke(handlerMapping.getController(), paramValues);
 
         if (result == null) {
             return null;

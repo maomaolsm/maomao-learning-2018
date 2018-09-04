@@ -14,6 +14,6 @@ public class QueryService implements IQueryService {
 
     @Override
     public String query(String teacher) {
-        return null;
+        return "----------- " + teacher;
     }
 }

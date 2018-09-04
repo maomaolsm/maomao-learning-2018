@@ -8,7 +8,7 @@ import com.maomao.springmvc.demo.service.IModifyService;
 public class ModifyService implements IModifyService {
     @Override
     public String add(String name, String addr) {
-        return null;
+        return "----------- name : " + name + " and addr : " + addr;
     }
 
     @Override
