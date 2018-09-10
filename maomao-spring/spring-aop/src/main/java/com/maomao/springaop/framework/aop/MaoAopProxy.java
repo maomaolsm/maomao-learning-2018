@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * Ä¬ÈÏ¾ÍÓÃ JDK ¶¯Ì¬´úÀí
+ * é»˜è®¤å°±ç”¨ JDK åŠ¨æ€ä»£ç†
  * Created by maomao on 2018/9/6.
  */
 public class MaoAopProxy implements InvocationHandler {
@@ -14,7 +14,7 @@ public class MaoAopProxy implements InvocationHandler {
 
     private Object target;
 
-    // °ÑÔ­ÉúµÄ¶ÔÏó´«½øÀ´
+    // æŠŠåŸç”Ÿçš„å¯¹è±¡ä¼ è¿›æ¥
     public Object getProxy(Object instance) {
         this.target = instance;
         Class<?> clazz = instance.getClass();
@@ -28,21 +28,21 @@ public class MaoAopProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-        // ÔÚÔ­Ê¼·½·¨µ÷ÓÃÖ®Ç°ÒªÖ´ĞĞÔöÇ¿µÄ´úÂë
+        // åœ¨åŸå§‹æ–¹æ³•è°ƒç”¨ä¹‹å‰è¦æ‰§è¡Œå¢å¼ºçš„ä»£ç 
         if(config.contains(method)){
             MaoAopConfig.MaoAspect aspect = config.get(method);
             aspect.getPoints()[0].invoke(aspect.getAspect());
         }
-        // ·´Éäµ÷ÓÃÔ­Ê¼·½·¨
+        // åå°„è°ƒç”¨åŸå§‹æ–¹æ³•
         Object obj = method.invoke(this.target,args);
 
-        // ÔÚÔ­Ê¼·½·¨µ÷ÓÃÖ®ºóÒªÖ´ĞĞÔöÇ¿µÄ´úÂë
+        // åœ¨åŸå§‹æ–¹æ³•è°ƒç”¨ä¹‹åè¦æ‰§è¡Œå¢å¼ºçš„ä»£ç 
         if(config.contains(method)){
             MaoAopConfig.MaoAspect aspect = config.get(method);
             aspect.getPoints()[1].invoke(aspect.getAspect());
         }
 
-        // ½«×îÔ­Ê¼µÄ·µ»ØÖµ·µ»Ø³öÈ¥
+        // å°†æœ€åŸå§‹çš„è¿”å›å€¼è¿”å›å‡ºå»
         return obj;
     }
 }

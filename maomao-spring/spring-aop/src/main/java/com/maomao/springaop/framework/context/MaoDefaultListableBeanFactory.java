@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MaoDefaultListableBeanFactory extends MaoAbstractApplicationContext {
 
-    // 用来保存配置信息
+    // 鐢ㄦ潵淇濆瓨閰嶇疆淇℃伅
     protected Map<String, MaoBeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, MaoBeanDefinition>();
 
 

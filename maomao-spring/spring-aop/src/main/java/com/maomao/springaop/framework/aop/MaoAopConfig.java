@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ֻ�Ƕ� application �е� expression �ķ�װ
+ * 只是对 application 中的 expression 的封装
  *
  * Created by maomao on 2018/9/8.
  */

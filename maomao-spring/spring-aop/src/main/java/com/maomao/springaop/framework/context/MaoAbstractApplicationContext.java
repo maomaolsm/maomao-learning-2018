@@ -5,7 +5,7 @@ package com.maomao.springaop.framework.context;
  */
 public abstract class MaoAbstractApplicationContext {
 
-    // Ìá¹©¸ø×ÓÀàÖØĞ´
+    // æä¾›ç»™å­ç±»é‡å†™
     protected void onRefresh()  {
         // For subclasses: do nothing by default.
     }
