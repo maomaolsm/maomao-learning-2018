@@ -1,5 +1,6 @@
 package com.maomao.springaop.framework.beans;
 
+import com.maomao.springaop.framework.aop.MaoAopConfig;
 import com.maomao.springaop.framework.aop.MaoAopProxy;
 import com.maomao.springaop.framework.core.MaoFactoryBean;
 
@@ -42,5 +43,9 @@ public class MaoBeanWrapper extends MaoFactoryBean {
 
     public void setPostProcessor(MaoBeanPostProcessor postProcessor) {
         this.postProcessor = postProcessor;
+    }
+
+    public void setAopConfig(MaoAopConfig config) {
+        aopProxy.setConfig(config);
     }
 }

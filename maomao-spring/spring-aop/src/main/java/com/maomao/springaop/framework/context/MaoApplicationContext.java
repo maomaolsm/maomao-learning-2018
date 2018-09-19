@@ -3,6 +3,7 @@ package com.maomao.springaop.framework.context;
 import com.maomao.springaop.framework.annotation.MaoAutowired;
 import com.maomao.springaop.framework.annotation.MaoController;
 import com.maomao.springaop.framework.annotation.MaoService;
+import com.maomao.springaop.framework.aop.MaoAopConfig;
 import com.maomao.springaop.framework.beans.MaoBeanDefinition;
 import com.maomao.springaop.framework.beans.MaoBeanPostProcessor;
 import com.maomao.springaop.framework.beans.MaoBeanWrapper;
@@ -10,11 +11,14 @@ import com.maomao.springaop.framework.context.support.MaoBeanDefinitionReader;
 import com.maomao.springaop.framework.core.MaoBeanFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by maomao on 2018/8/20.
@@ -152,15 +156,15 @@ public class MaoApplicationContext extends MaoDefaultListableBeanFactory impleme
     // 2、我需要对他进行扩展，增强（为了以后 aop 打基础）
     @Override
     public Object getBean(String beanName) {
-        MaoBeanDefinition maoBeanDefinition = this.beanDefinitionMap.get(beanName);
-        String className = maoBeanDefinition.getBeanClassName();
+        MaoBeanDefinition beanDefinition = this.beanDefinitionMap.get(beanName);
+        String className = beanDefinition.getBeanClassName();
         try {
 
             // 生成通知事件
             MaoBeanPostProcessor maoBeanPostProcessor = new MaoBeanPostProcessor();
 
 
-            Object instance = instantiationBean(maoBeanDefinition);
+            Object instance = instantiationBean(beanDefinition);
             if (null == instance) {
                 return null;
             }
@@ -169,6 +173,7 @@ public class MaoApplicationContext extends MaoDefaultListableBeanFactory impleme
             maoBeanPostProcessor.postProcessBeforeInitialization(instance, beanName);
 
             MaoBeanWrapper maoBeanWrapper = new MaoBeanWrapper(instance);
+            maoBeanWrapper.setAopConfig(instantiationAopConfig(beanDefinition));
             maoBeanWrapper.setPostProcessor(maoBeanPostProcessor);
             this.beanWrapperMap.put(beanName, maoBeanWrapper);
 
@@ -224,5 +229,36 @@ public class MaoApplicationContext extends MaoDefaultListableBeanFactory impleme
 
     public Properties getConfig() {
         return this.reader.getContextConfig();
+    }
+
+    public MaoAopConfig instantiationAopConfig(MaoBeanDefinition beanDefinition) throws Exception {
+        MaoAopConfig config = new MaoAopConfig();
+        String expression = reader.getContextConfig().getProperty("pointCut");
+        String[] before = reader.getContextConfig().getProperty("aspectBefore").split("\\s");
+        String[] after = reader.getContextConfig().getProperty("aspectAfter").split("\\s");
+
+        String className = beanDefinition.getBeanClassName();
+        Class<?> clazz = Class.forName(className);
+
+        Pattern pattern = Pattern.compile(expression);
+
+        Class aspectClass = Class.forName(before[1]);
+        for (Method method : clazz.getMethods()) {
+
+            // public .* com\.maomao\.springaop\.demo\.service\..*Service\..*\(.*\)
+            // public java.long.String com.maomao.springaop.demo.service.impl.ModifyService.add(java.long.String, java.long.String)
+            Matcher matcher = pattern.matcher(method.toString());
+            if (matcher.matches()) {
+
+                // 能满足切面的规则的类，添加到 aop 配置中
+                config.put(method, aspectClass.newInstance(),
+                    new Method[]{
+                        aspectClass.getMethod(before[1]), aspectClass.getMethod(after[1])
+                    }
+                );
+            }
+        }
+
+        return config;
     }
 }

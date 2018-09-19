@@ -3,11 +3,12 @@ package com.maomao.springaop.framework.webmvc.servlet;
 import com.maomao.springaop.framework.annotation.MaoController;
 import com.maomao.springaop.framework.annotation.MaoRequestMapping;
 import com.maomao.springaop.framework.annotation.MaoRequestParam;
+import com.maomao.springaop.framework.aop.MaoAopProxyUtils;
 import com.maomao.springaop.framework.context.MaoApplicationContext;
-import com.maomao.springaop.framework.webmvc.HandlerAdapter;
-import com.maomao.springaop.framework.webmvc.HandlerMapping;
-import com.maomao.springaop.framework.webmvc.ModelAndView;
-import com.maomao.springaop.framework.webmvc.ViewResolver;
+import com.maomao.springaop.framework.webmvc.MaoHandlerAdapter;
+import com.maomao.springaop.framework.webmvc.MaoHandlerMapping;
+import com.maomao.springaop.framework.webmvc.MaoModelAndView;
+import com.maomao.springaop.framework.webmvc.MaoViewResolver;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -36,11 +37,11 @@ public class MaoDispatchServlet extends HttpServlet {
     // 课后思考一下这样设计的经典之处 为什么是 list
     // HandlerMapping 是 spring 中最核心的设计，也是最经典的
     // 他牛逼到直接干掉了其他的 mvc 框架
-    private List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
+    private List<MaoHandlerMapping> handlerMappings = new ArrayList<MaoHandlerMapping>();
 
-    private Map<HandlerMapping, HandlerAdapter> handlerAdapters = new HashMap<HandlerMapping, HandlerAdapter>();
+    private Map<MaoHandlerMapping, MaoHandlerAdapter> handlerAdapters = new HashMap<MaoHandlerMapping, MaoHandlerAdapter>();
 
-    private List<ViewResolver> viewResolvers = new ArrayList<ViewResolver>();
+    private List<MaoViewResolver> viewResolvers = new ArrayList<MaoViewResolver>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -81,22 +82,22 @@ public class MaoDispatchServlet extends HttpServlet {
         throws Exception {
 
         // 根据用户请求的 url 来获得一个 handler
-        HandlerMapping handlerMapping = getHandler(req);
+        MaoHandlerMapping handlerMapping = getHandler(req);
         if (handlerMapping == null) {
             resp.getWriter().write("------- 404 mei you zhao dao : \r\n");
         }
 
-        HandlerAdapter handlerAdapter = getHandlerAdapter(handlerMapping);
+        MaoHandlerAdapter handlerAdapter = getHandlerAdapter(handlerMapping);
 
         // 这一步只是调用方法，得到返回值
-        ModelAndView modelAndView = handlerAdapter.handle(req, resp, handlerMapping);
+        MaoModelAndView modelAndView = handlerAdapter.handle(req, resp, handlerMapping);
 
         // 这一步才是真正的输出
         processDispatchResult(resp, modelAndView);
     }
 
     private void processDispatchResult(HttpServletResponse resp,
-                                       ModelAndView mv) throws Exception {
+                                       MaoModelAndView mv) throws Exception {
 
         // 调用 viewResolver 的 resoleView 方法
         if (null == mv) {
@@ -107,7 +108,7 @@ public class MaoDispatchServlet extends HttpServlet {
             return;
         }
 
-        for (ViewResolver viewResolver : this.viewResolvers) {
+        for (MaoViewResolver viewResolver : this.viewResolvers) {
             if (!mv.getViewName().equals(viewResolver.getViewName())) {
                 continue;
             }
@@ -119,14 +120,14 @@ public class MaoDispatchServlet extends HttpServlet {
         }
     }
 
-    private HandlerAdapter getHandlerAdapter(HandlerMapping handlerMapping) {
+    private MaoHandlerAdapter getHandlerAdapter(MaoHandlerMapping handlerMapping) {
         if (this.handlerAdapters.isEmpty()) {
             return null;
         }
         return this.handlerAdapters.get(handlerMapping);
     }
 
-    private HandlerMapping getHandler(HttpServletRequest req) {
+    private MaoHandlerMapping getHandler(HttpServletRequest req) {
 
         if (this.handlerMappings.isEmpty()) {
             return null;
@@ -136,7 +137,7 @@ public class MaoDispatchServlet extends HttpServlet {
         String contextPath = req.getContextPath();
         url = url.replace(contextPath, "").replaceAll("/+", "/");
 
-        for (HandlerMapping handlerMapping : this.handlerMappings) {
+        for (MaoHandlerMapping handlerMapping : this.handlerMappings) {
             Matcher matcher = handlerMapping.getPattern().matcher(url);
             if (!matcher.matches()) {
                 continue;
@@ -201,7 +202,7 @@ public class MaoDispatchServlet extends HttpServlet {
         File templateRootDir = new File(templatePath);
 
         for (File template : templateRootDir.listFiles()) {
-            this.viewResolvers.add(new ViewResolver(template.getName(), template));
+            this.viewResolvers.add(new MaoViewResolver(template.getName(), template));
         }
 
     }
@@ -219,7 +220,7 @@ public class MaoDispatchServlet extends HttpServlet {
         // 因为后面用反射的时候，传的形参是一个数组
         // 可以通过记录这些参数的位置 index，挨个从数组中填值，这样的话，就和参数的顺序无关了
 
-        for (HandlerMapping handlerMapping : this.handlerMappings) {
+        for (MaoHandlerMapping handlerMapping : this.handlerMappings) {
 
             // 每一个方法有一个参数列表，那么这里保存的是形参列表
             Map<String, Integer> paramMapping = new HashMap<String, Integer>();
@@ -248,7 +249,7 @@ public class MaoDispatchServlet extends HttpServlet {
                 }
             }
 
-            this.handlerAdapters.put(handlerMapping, new HandlerAdapter(paramMapping));
+            this.handlerAdapters.put(handlerMapping, new MaoHandlerAdapter(paramMapping));
         }
     }
 
@@ -261,37 +262,45 @@ public class MaoDispatchServlet extends HttpServlet {
 
         // 首先从容器中取到所有的实例
         String[] beanNames = context.getBeanDefinitionNames();
-        for (String beanName : beanNames) {
-            Object controller = context.getBean(beanName);
-            Class<?> clazz = controller.getClass();
-            // 但是不是所有的牛奶都叫特仑苏
-            if (!clazz.isAnnotationPresent(MaoController.class)) {
-                continue;
-            }
+        try {
+            for (String beanName : beanNames) {
 
-            String baseUrl = "";
-
-            if (clazz.isAnnotationPresent(MaoRequestMapping.class)) {
-                MaoRequestMapping maoRequestMapping = clazz.getAnnotation(MaoRequestMapping.class);
-                baseUrl = maoRequestMapping.value();
-            }
-
-            // 扫描所有的 public 方法
-            Method[] methods = clazz.getMethods();
-            for (Method method : methods) {
-
-                if (!method.isAnnotationPresent(MaoRequestMapping.class)) {
+                // 到了 mvc 层，对外提供的方法只有一个 getBean 方法
+                // 返回的对象不是 BeanWrapper，怎么办？
+                Object proxy = context.getBean(beanName);
+                Object controller = MaoAopProxyUtils.getTargetObject(proxy);
+                Class<?> clazz = controller.getClass();
+                // 但是不是所有的牛奶都叫特仑苏
+                if (!clazz.isAnnotationPresent(MaoController.class)) {
                     continue;
                 }
 
-                MaoRequestMapping maoRequestMapping = method.getAnnotation(MaoRequestMapping.class);
-                String regex = ("/" + baseUrl + maoRequestMapping.value().replaceAll("\\*", ".*"))
-                    .replaceAll("/+", "/");
-                Pattern pattern = Pattern.compile(regex);
-                this.handlerMappings.add(new HandlerMapping(pattern, controller, method));
+                String baseUrl = "";
 
-                System.out.println("------- mapping : " + regex + " , " + method);
+                if (clazz.isAnnotationPresent(MaoRequestMapping.class)) {
+                    MaoRequestMapping maoRequestMapping = clazz.getAnnotation(MaoRequestMapping.class);
+                    baseUrl = maoRequestMapping.value();
+                }
+
+                // 扫描所有的 public 方法
+                Method[] methods = clazz.getMethods();
+                for (Method method : methods) {
+
+                    if (!method.isAnnotationPresent(MaoRequestMapping.class)) {
+                        continue;
+                    }
+
+                    MaoRequestMapping maoRequestMapping = method.getAnnotation(MaoRequestMapping.class);
+                    String regex = ("/" + baseUrl + maoRequestMapping.value().replaceAll("\\*", ".*"))
+                        .replaceAll("/+", "/");
+                    Pattern pattern = Pattern.compile(regex);
+                    this.handlerMappings.add(new MaoHandlerMapping(pattern, controller, method));
+
+                    System.out.println("------- mapping : " + regex + " , " + method);
+                }
+
             }
+        } catch (Exception e) {
 
         }
     }
