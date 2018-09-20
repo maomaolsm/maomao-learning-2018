@@ -8,10 +8,20 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.maomao"/>
+    <!--<context:component-scan base-package="com.maomao"/>-->
 
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
 
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
+
+    <!--&lt;!&ndash; configure the InternalResourceViewResolver &ndash;&gt;-->
+    <!--<bean id="viewResolver"-->
+          <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+        <!--&lt;!&ndash; 前缀 &ndash;&gt;-->
+        <!--<property name="prefix" value="/WEB-INF/jsp/"/>-->
+        <!--&lt;!&ndash; 后缀 &ndash;&gt;-->
+        <!--<property name="suffix" value=".jsp"/>-->
+    <!--</bean>-->
 
 </beans>

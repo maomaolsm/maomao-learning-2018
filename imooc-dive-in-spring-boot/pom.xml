@@ -10,7 +10,8 @@
 		<module>autoconfigure</module>
         <module>spring-application</module>
         <module>spring-webmvc</module>
-    </modules>
+		<module>springboot-webmvc</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<name>imooc-dive-in-spring-boot</name>
