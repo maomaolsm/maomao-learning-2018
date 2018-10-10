@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2018/9/7 17:46
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     //    <!-- configure the InternalResourceViewResolver -->
@@ -34,14 +34,16 @@ public class WebConfig implements WebMvcConfigurer {
 //        <!-- 后缀 -->
 //        <property name="suffix" value=".jsp"/>
 //    </bean>
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/jsp/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
+
+    // 用 properties 替换
+//    @Bean
+//    public ViewResolver viewResolver() {
+//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//        viewResolver.setViewClass(JstlView.class);
+//        viewResolver.setPrefix("/WEB-INF/jsp/");
+//        viewResolver.setSuffix(".jsp");
+//        return viewResolver;
+//    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

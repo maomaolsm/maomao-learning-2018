@@ -1,7 +1,5 @@
 package com.maomao.java.annotation;
 
-import com.maomao.java.annotation.Constraints;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

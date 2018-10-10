@@ -1,9 +1,4 @@
-package com.maomao.java;
-
-import com.maomao.java.annotation.Constraints;
-import com.maomao.java.annotation.DBTable;
-import com.maomao.java.annotation.SQLInteger;
-import com.maomao.java.annotation.SQLString;
+package com.maomao.java.annotation;
 
 /**
  * Created by maomao on 2018/8/19.
