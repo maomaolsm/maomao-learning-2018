@@ -23,13 +23,15 @@ public class SpringEventListenerDemo {
 
         // 发布事件
         context.publishEvent(new MyApplicationEvent("hello, word !"));
+        context.publishEvent(new MyApplicationEvent("hello, word !"));
+        context.publishEvent(new MyApplicationEvent("hello, word !"));
     }
 
     private static class MyApplicationListener implements ApplicationListener<MyApplicationEvent> {
 
         @Override
-        public void onApplicationEvent(MyApplicationEvent myApplicationEvent) {
-            System.out.println();
+        public void onApplicationEvent(MyApplicationEvent event) {
+            System.out.printf("MyApplicationListener receives event source : %s \n",event.getSource());
         }
     }
 

@@ -7,6 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+
+//		SpringApplication.run(DemoApplication.class, args);
+
+		SpringApplication springApplication= new SpringApplication(DemoApplication.class);
+		// TODO 修改 banner
+//		springApplication.setBanner();
+		springApplication.run(args);
+
 	}
 }
