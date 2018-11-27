@@ -1,4 +1,5 @@
 # 需要添加 spring-cloud-starter-config 依赖
 # com.maomao.bootstrap.MyConfiguration 才会起作用
 org.springframework.cloud.bootstrap.BootstrapConfiguration= \
-com.maomao.bootstrap.MyConfiguration
+com.maomao.bootstrap.MyConfiguration,\
+com.maomao.bootstrap.MyPropertySourceLocator
