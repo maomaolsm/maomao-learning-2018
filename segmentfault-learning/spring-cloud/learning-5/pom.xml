@@ -4,11 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.maomao</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>learning-5</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
-	<name>demo</name>
+	<modules>
+		<module>eureka-server</module>
+		<module>eureka-client</module>
+	</modules>
+
+	<packaging>pom</packaging>
+
+	<name>learning-5</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
