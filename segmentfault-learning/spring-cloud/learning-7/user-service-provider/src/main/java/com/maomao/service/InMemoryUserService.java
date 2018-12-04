@@ -2,6 +2,7 @@ package com.maomao.service;
 
 import com.maomao.api.UserService;
 import com.maomao.domain.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by maomao on 2018/12/3.
  */
+@Service
 public class InMemoryUserService implements UserService {
 
     private Map<Long, User> repository = new ConcurrentHashMap<>();
