@@ -4,11 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.maomao</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>learning-8</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<modules>
+		<module>web</module>
+		<module>user-api</module>
+		<module>user-ribbon-client</module>
+		<module>user-service-provider</module>
+	</modules>
 	<packaging>pom</packaging>
 
-	<name>demo</name>
+	<name>learning-8</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
