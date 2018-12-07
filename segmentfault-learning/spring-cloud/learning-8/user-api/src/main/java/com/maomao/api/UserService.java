@@ -9,6 +9,7 @@ import java.util.List;
  *
  * Created by maomao on 2018/12/3.
  */
+
 public interface UserService {
 
     boolean saveUser(User user);
