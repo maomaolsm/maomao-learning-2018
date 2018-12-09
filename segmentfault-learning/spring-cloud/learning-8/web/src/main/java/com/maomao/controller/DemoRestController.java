@@ -19,7 +19,7 @@ public class DemoRestController {
      * @return
      * @throws Exception
      */
-    @GetMapping
+    @GetMapping("")
     public String index() throws Exception {
 
         long executeTime = RANDOM.nextInt(200);

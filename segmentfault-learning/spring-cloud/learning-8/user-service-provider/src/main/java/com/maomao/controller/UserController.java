@@ -34,13 +34,13 @@ public class UserController {
     }
 
     @HystrixCommand(commandProperties = { // command 配置
-            // 设置超时时间为 100 ms
-            @HystrixProperty(
-                    name = "execution.isolation.thread.timeoutInMilliseconds",
-                    value = "100")},
-            fallbackMethod = "fallbackForGetUsers"
+        // 设置超时时间为 100 ms
+        @HystrixProperty(
+            name = "execution.isolation.thread.timeoutInMilliseconds",
+            value = "100")},
+        fallbackMethod = "fallbackForGetUsers"
     )
-    @GetMapping
+    @GetMapping("/user/list")
     public Collection<User> getUsers() throws InterruptedException {
 
         long executeTime = RANDOM.nextInt(200);

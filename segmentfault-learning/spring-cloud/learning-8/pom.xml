@@ -11,6 +11,7 @@
 		<module>user-api</module>
 		<module>user-ribbon-client</module>
 		<module>user-service-provider</module>
+		<module>hystrix-dashboard</module>
 	</modules>
 	<packaging>pom</packaging>
 
