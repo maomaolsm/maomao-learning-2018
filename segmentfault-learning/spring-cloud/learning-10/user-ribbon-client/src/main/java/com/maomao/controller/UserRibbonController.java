@@ -1,7 +1,6 @@
 package com.maomao.controller;
 
 import com.maomao.domain.User;
-import com.maomao.hystrix.UserRibbonClientHystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -10,22 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Add some description about this class.
- *
- * @author senmao.li
- * @since 2018/12/6 11:36
+ * Created by maomao on 2018/12/13.
  */
 @RestController
 public class UserRibbonController {
 
     @Autowired
     private LoadBalancerClient loadBalancerClient;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @GetMapping("")
     public String index() throws IOException {
@@ -41,7 +35,7 @@ public class UserRibbonController {
             "user-service-provider", serviceInstance,
             instance -> {
 
-                String url = "http://localhost:9090/user/save";
+                String url = instance.getUri() + "/user/save";
 
                 RestTemplate restTemplate = new RestTemplate();
 
@@ -50,18 +44,9 @@ public class UserRibbonController {
 
     }
 
-    /**
-     * 调用 user-service-provider "/user/list" rest 接口，并直接返回内容
-     * 增加短路功能
-     *
-     * @return
-     */
-    @GetMapping("/user-service-provider/user/list")
-    public Collection<User> getUserList() {
-
-//        return restTemplate.getForObject("http://user-service-provider/user/list", Collection.class);
-
-        return new UserRibbonClientHystrixCommand(restTemplate).execute();
-
+    @GetMapping("/user/list")
+    public List<User> getAll(User user) {
+        return Collections.emptyList();
     }
+
 }
