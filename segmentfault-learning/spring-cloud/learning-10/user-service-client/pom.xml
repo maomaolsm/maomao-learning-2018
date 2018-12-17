@@ -9,9 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-service-provider</artifactId>
+    <artifactId>user-service-client</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.maomao</groupId>
             <artifactId>user-api</artifactId>

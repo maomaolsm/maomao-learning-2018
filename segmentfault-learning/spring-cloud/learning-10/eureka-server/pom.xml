@@ -9,21 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-ribbon-client</artifactId>
+    <artifactId>eurrka-server</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-ribbon</artifactId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.maomao</groupId>
-            <artifactId>user-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
     </dependencies>
+
 
 </project>
