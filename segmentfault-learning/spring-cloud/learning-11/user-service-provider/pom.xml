@@ -11,5 +11,14 @@
 
     <artifactId>user-service-provider</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.maomao</groupId>
+            <artifactId>user-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
