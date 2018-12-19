@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author senmao.li
  * @since 2018/12/18 14:14
  */
-@Service
+@Service("InMemoryUserService")
 public class InMemoryUserService implements UserService {
 
     private Map<Long, User> map = new ConcurrentHashMap<>();

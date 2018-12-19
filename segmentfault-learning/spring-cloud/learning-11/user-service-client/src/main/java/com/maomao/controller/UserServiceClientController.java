@@ -3,6 +3,7 @@ package com.maomao.controller;
 import com.maomao.api.UserService;
 import com.maomao.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,12 +18,12 @@ public class UserServiceClientController implements UserService{
     private UserService userService;
 
     @Override
-    public boolean save(User user) {
-        return false;
+    public boolean save(@RequestBody User user) {
+        return userService.save(user);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return userService.getAll();
     }
 }
