@@ -1,4 +1,4 @@
-package com.maomao.servlet.support;
+package com.maomao.spring.servlet.support;
 
 import com.maomao.config.DispatcherServletConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

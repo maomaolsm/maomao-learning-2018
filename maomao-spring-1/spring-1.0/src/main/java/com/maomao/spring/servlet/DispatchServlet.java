@@ -1,4 +1,4 @@
-package com.maomao.servlet;
+package com.maomao.spring.servlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,11 @@ public class DispatchServlet extends HttpServlet {
         // 开始初始化
 
         // 定位
-        doLoadConfig();
+        try {
+            doLoadConfig(config.getInitParameter("contextConfigLocation"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // 加载
         doScanner();
@@ -64,7 +69,19 @@ public class DispatchServlet extends HttpServlet {
 
     }
 
-    private void doLoadConfig() {
+    private void doLoadConfig(String location) throws IOException {
+
+        // 在 spring 中是通过 reader 去查找和定位
+        InputStream is = this.getClass().getClassLoader()
+            .getResourceAsStream(location.replace("classpath:",""));
+
+        try {
+            contextConfig.load(is);
+        } finally {
+            if (null != is) {
+                is.close();
+            }
+        }
 
     }
 
