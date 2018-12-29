@@ -47,10 +47,51 @@ public class MaoApplicationContext implements BeanFactory {
     }
 
     // 真正的将 beanDefinitions 注册到 beanDefinitionMap（ioc） 中
+    // beanName 有三种情况
+    // 1、默认是类名首字母小写
+    // 2、自定义名称
+    // 3、接口注入
     private void doRegistry(List<String> beanDefinitions) {
-        
+
+        try {
+
+            for (String className : beanDefinitions) {
+                Class<?> beanClass = Class.forName(className);
+
+                // 用他的实现类来实例化
+                if (beanClass.isInterface()) {
+                    continue;
+                }
+
+                BeanDefinition beanDefinition = reader.registerBean(className);
+
+                if (beanDefinition != null) {
+                    beanDefinitionMap.put(beanDefinition.getFactoryBeanName(), beanDefinition);
+                }
+
+                Class<?>[] interfaces = beanClass.getInterfaces();
+                for (Class<?> clazz : interfaces) {
+
+                    // 如果多个 spring 会报错
+                    this.beanDefinitionMap.put(clazz.getName(),beanDefinition);
+                }
+
+                // 到这里，容器初始化完毕
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
+    // 依赖注入，从这里开始，通过读取 beanDefinition 中的信息
+    // 然后，通过反射机制创建一个实例并返回
+    // spring 的做法是，不会把最原始的对象放出去，会用一个 beanWrapper 来进行一次包装
+    // 包装器模式：
+    // 1、保留原来的 oop 关系
+    // 2、我需要对他进行扩展，增强（为了以后 aop 打基础）
     public Object getBean(String name) {
         return null;
     }
