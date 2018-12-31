@@ -99,7 +99,15 @@ public class MaoApplicationContext implements BeanFactory {
 
             field.setAccessible(true);
             try {
-                field.set(instance, this.beanWrapperMap.get(autowiredBeanName).getWrapperInstance());
+
+                System.out.println("---------------" + instance
+                    + "---------------" + autowiredBeanName
+                    + "---------------" + beanWrapperMap.get(autowiredBeanName));
+
+
+                field.set(instance,
+                    this.beanWrapperMap.get(autowiredBeanName).getWrapperInstance());
+
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

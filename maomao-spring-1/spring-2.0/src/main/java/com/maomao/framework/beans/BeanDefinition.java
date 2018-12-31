@@ -27,6 +27,10 @@ public class BeanDefinition {
         return lazyInit;
     }
 
+    public boolean isNotLazyInit() {
+        return !lazyInit;
+    }
+
     public void setLazyInit(boolean lazyInit) {
         this.lazyInit = lazyInit;
     }

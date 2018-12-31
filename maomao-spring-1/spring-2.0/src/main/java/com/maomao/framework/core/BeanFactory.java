@@ -5,6 +5,11 @@ package com.maomao.framework.core;
  */
 public interface BeanFactory {
 
-    Object getBean(String name);
+    /**
+     * 从 ioc 中获取一个实例 Bean
+     * @param beanName
+     * @return
+     */
+    Object getBean(String beanName);
 
 }
