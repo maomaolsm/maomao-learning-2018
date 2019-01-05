@@ -12,7 +12,7 @@ import com.maomao.framework.annotation.RequestMapping;
 public class DemoAction {
 
     @Autowired
-    // 注入的是接口
+    // 注入的是接口，如果不是接口，则会注入报错
     private IDemoService service;
 
     @RequestMapping("/query.json")
