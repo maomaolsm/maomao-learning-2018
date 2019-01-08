@@ -1,6 +1,8 @@
 package com.maomao.framework.webmvc.servlet;
 
-import com.maomao.framework.ApplicationContext;
+import com.maomao.framework.annotation.Controller;
+import com.maomao.framework.annotation.RequestMapping;
+import com.maomao.framework.context.ApplicationContext;
 import com.maomao.framework.webmvc.HandlerAdapter;
 import com.maomao.framework.webmvc.HandlerMapping;
 import com.maomao.framework.webmvc.ModelAndView;
@@ -11,8 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by maomao on 2019/1/5.
@@ -116,12 +122,40 @@ public class DispatcherServlet extends HttpServlet {
 
     private void initHandlerAdapters(ApplicationContext context) {
 
+        for (HandlerMapping handlerMapping : handlerMappings) {
+            Map<String, Integer> paramMapping = new HashMap<String, Integer>();
+
+
+        }
+
     }
 
     private void initHandlerMappings(ApplicationContext context) {
 
+        String[] beanNames = context.getBeanDefinitionNames();
+        for (String beanName : beanNames) {
+            Object controller = context.getBean(beanName);
+            Class<?> clazz = controller.getClass();
 
+            if (clazz.isAnnotationPresent(Controller.class)) {
+                String baseUrl = "";
+                if (clazz.isAnnotationPresent(RequestMapping.class)) {
+                    RequestMapping requestMapping = clazz.getAnnotation(RequestMapping.class);
+                    baseUrl = requestMapping.value();
+                }
 
+                Method[] methods = clazz.getMethods();
+                for (Method method : methods) {
+                    if (method.isAnnotationPresent(RequestMapping.class)) {
+                        RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+                        String regex = ("/" + baseUrl + requestMapping.value().replaceAll("/+", "/"));
+                        Pattern pattern = Pattern.compile(regex);
+                        this.handlerMappings.add(new HandlerMapping(controller, method, pattern));
+                        System.out.println("mapping : " + regex + "," + method);
+                    }
+                }
+            }
+        }
     }
 
     private void initThemeResolver(ApplicationContext context) {

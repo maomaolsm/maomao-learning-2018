@@ -1,5 +1,6 @@
 package com.maomao.framework.webmvc;
 
+import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
 /**
@@ -7,24 +8,24 @@ import java.util.regex.Pattern;
  */
 public class HandlerMapping {
 
-    private String url;
-
     private Object controller;
+
+    private Method method;
 
     private Pattern pattern;
 
-    public HandlerMapping(String url, Object controller, Pattern pattern) {
-        this.url = url;
+    public HandlerMapping(Object controller, Method method, Pattern pattern) {
         this.controller = controller;
+        this.method = method;
         this.pattern = pattern;
     }
 
-    public String getUrl() {
-        return url;
+    public Method getMethod() {
+        return method;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setMethod(Method method) {
+        this.method = method;
     }
 
     public Object getController() {
