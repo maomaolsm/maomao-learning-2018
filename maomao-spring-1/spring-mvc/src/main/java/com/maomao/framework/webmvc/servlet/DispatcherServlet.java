@@ -2,6 +2,7 @@ package com.maomao.framework.webmvc.servlet;
 
 import com.maomao.framework.annotation.Controller;
 import com.maomao.framework.annotation.RequestMapping;
+import com.maomao.framework.annotation.RequestParam;
 import com.maomao.framework.context.ApplicationContext;
 import com.maomao.framework.webmvc.HandlerAdapter;
 import com.maomao.framework.webmvc.HandlerMapping;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +29,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
 
-    private List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
+    private Map<HandlerMapping, HandlerAdapter> handlerAdapters = new HashMap<HandlerMapping, HandlerAdapter>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -125,6 +127,29 @@ public class DispatcherServlet extends HttpServlet {
         for (HandlerMapping handlerMapping : handlerMappings) {
             Map<String, Integer> paramMapping = new HashMap<String, Integer>();
 
+            Annotation[][] pa = handlerMapping.getMethod().getParameterAnnotations();
+            for (int i = 0; i < pa.length; i++) {
+                for (Annotation annotation : pa[i]) {
+                    if (annotation instanceof RequestParam) {
+                        String paramName = ((RequestParam) annotation).value();
+
+                        // 为什么不处理等于空的情况
+                        if (!"".equals(paramName.trim())) {
+                            paramMapping.put(paramName, i);
+                        }
+                    }
+                }
+            }
+
+            Class<?>[] paramTypes = handlerMapping.getMethod().getParameterTypes();
+            for (int i = 0; i < paramTypes.length; i++) {
+                Class<?> type = paramTypes[i];
+                if (type == HttpServletRequest.class || type == HttpServletResponse.class) {
+                    paramMapping.put(type.getName(), i);
+                }
+            }
+
+            this.handlerAdapters.put(handlerMapping, new HandlerAdapter(paramMapping));
 
         }
 
