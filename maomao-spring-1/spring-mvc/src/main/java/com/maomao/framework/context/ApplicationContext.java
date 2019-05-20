@@ -1,6 +1,7 @@
 package com.maomao.framework.context;
 
 import com.maomao.framework.beans.BeanDefinition;
+import com.maomao.framework.beans.BeanDefinitionReader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,18 +11,22 @@ import java.util.Map;
  */
 public class ApplicationContext {
 
-    private String contextConfigLocation;
+    private String configLocation;
+
+    private BeanDefinitionReader reader;
 
     private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
 
     public ApplicationContext(String contextConfigLocation) {
-        this.contextConfigLocation = contextConfigLocation;
+        this.configLocation = contextConfigLocation;
         refresh();
     }
 
     private void refresh() {
 
         // 定位
+        this.reader = new BeanDefinitionReader(configLocation);
+
         // 加载
         // 注册
         doRegistry();
