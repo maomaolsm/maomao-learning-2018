@@ -1,6 +1,5 @@
 package com.maomao.domain;
 
-import com.maomao.domain.Gender;
 import lombok.Data;
 
 import java.util.Date;
