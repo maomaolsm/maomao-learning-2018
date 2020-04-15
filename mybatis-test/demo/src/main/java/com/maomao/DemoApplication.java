@@ -22,4 +22,13 @@ public class DemoApplication {
         sqlSession.close();
 
     }
+
+//    public static void main(String[] args) throws IOException {
+//        InputStream inputStream = new ClassPathResource("mybatis.xml").getInputStream();
+//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//        SqlSession sqlSession = sqlSessionFactory.openSession();
+//        UserDao mapper = sqlSession.getMapper(UserDao.class);
+//        System.out.println(mapper.get(1L)); System.out.println("-------------------");
+//        System.out.println(mapper.get(1L));
+//    }
 }
