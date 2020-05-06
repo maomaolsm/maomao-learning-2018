@@ -7,10 +7,11 @@
 	<artifactId>imooc-dive-in-spring-boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
-		<module>autoconfigure</module>
-        <module>spring-application</module>
+		<module>sprint-boot-autoconfigure</module>
+        <module>spring-boot-spring-application</module>
         <module>spring-webmvc</module>
 		<module>springboot-webmvc</module>
+		<module>chapter-one</module>
 	</modules>
 	<packaging>pom</packaging>
 
