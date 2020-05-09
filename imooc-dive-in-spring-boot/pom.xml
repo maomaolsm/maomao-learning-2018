@@ -12,6 +12,7 @@
         <module>spring-webmvc</module>
 		<module>springboot-webmvc</module>
 		<module>chapter-one</module>
+		<module>chapter-two</module>
 	</modules>
 	<packaging>pom</packaging>
 
