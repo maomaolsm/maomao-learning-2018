@@ -14,6 +14,6 @@ import org.springframework.context.annotation.Configuration;
 // @EnableHelloWorld -> 会加载 HelloWorldImportSelector -> 会加载 HelloWorldConfiguration
 // 最终转生成 helloWorld Bean
 @EnableHelloWorld // spring @Enable 模块装配
-@ConditionOnSystemProperty(name = "user.name", value = "dell") // 条件装配
+@ConditionOnSystemProperty(name = "user.name", value = "lx") // 条件装配
 public class HelloWorldAutoConfiguration {
 }
