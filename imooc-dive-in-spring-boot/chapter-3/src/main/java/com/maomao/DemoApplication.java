@@ -12,7 +12,8 @@ import java.util.List;
 public class DemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication springApplication = new SpringApplication(DemoApplication.class);
+        springApplication.run(args);
     }
 
     public void sort() {
