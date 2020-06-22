@@ -24,7 +24,7 @@ public class LoginController {
         return userDto.getUsername();
     }
 
-    @GetMapping(value = "logout", produces = "text/plain;charset=utf-8")
+    @GetMapping(value = "/logout", produces = "text/plain;charset=utf-8")
     public String logout(HttpSession session) {
         session.invalidate();
         return "chenggong";
