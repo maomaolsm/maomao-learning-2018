@@ -8,6 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>d-distributed-security-uaa</module>
+        <module>d-distributed-security-order</module>
     </modules>
 
     <packaging>pom</packaging>
