@@ -21,4 +21,14 @@ public class UAAServer {
 	// 拿到code，换token
 	// http://localhost:53020/uaa/oauth/token?client_id=c1&client_secret=secret&grant_type=authorization_code&code=5PgfcD&redirect_uri=http://www.baidu.com
 
+	// 简化模式获取token
+	// http://localhost:53020/uaa/oauth/authorize?client_id=c1&response_type=token&scope=all&redirect_uri=http://www.baidu.com
+
+	// 密码模式
+	// http://localhost:53020/uaa/oauth/token?client_id=c1&client_secret=secret&grant_type=password&username=shangsan&password=123
+
+	// 访问资源
+	// headers 中添加 Authorization，值为：Bearer token值
+	// http://127.0.0.1:53021/order/r1
+
 }
