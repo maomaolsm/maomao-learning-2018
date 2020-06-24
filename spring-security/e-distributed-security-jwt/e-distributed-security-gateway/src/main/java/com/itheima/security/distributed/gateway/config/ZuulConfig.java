@@ -17,7 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 public class ZuulConfig {
 
     @Bean
-    public AuthFilter preFileter() {
+    public AuthFilter preFilter() {
         return new AuthFilter();
     }
 

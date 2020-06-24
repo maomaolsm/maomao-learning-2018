@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  * @version 1.0
  **/
 @Configuration
-public class ResouceServerConfig  {
+public class ResourceServerConfig  {
 
     public static final String RESOURCE_ID = "res1";
 
